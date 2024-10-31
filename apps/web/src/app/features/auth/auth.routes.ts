@@ -1,14 +1,24 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
-export const authRoutes: Route[] = [
+export const authRoutes: Routes = [
   {
     path: 'login',
-    loadComponent: () =>
-      import('./components/login/login.component').then(m => m.LoginComponent)
+    component: LoginComponent
   },
   {
     path: 'signup',
-    loadComponent: () =>
-      import('./components/signup/signup.component').then(m => m.SignupComponent)
+    component: SignupComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
   }
 ];

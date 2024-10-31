@@ -1,0 +1,51 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="toggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="onSignOut()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Sign Out</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav [mode]="'side'" [opened]="true" [class.expanded]="isExpanded">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard">
+          <mat-icon>dashboard</mat-icon>
+          <span *ngIf="isExpanded">Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/dashboard/analytics">
+          <mat-icon>analytics</mat-icon>
+          <span *ngIf="isExpanded">Analytics</span>
+        </a>
+        <a mat-list-item routerLink="/dashboard/settings">
+          <mat-icon>settings</mat-icon>
+          <span *ngIf="isExpanded">Settings</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
