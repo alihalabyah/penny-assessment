@@ -1,0 +1,27 @@
+.flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card() {
+  background: white;
+  border-radius: @border-radius;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: @spacing-md;
+}
+
+.form-control() {
+  width: 100%;
+  padding: @spacing-sm;
+  border: 1px solid @border-color;
+  border-radius: @border-radius;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+
+  &:focus {
+    outline: none;
+    border-color: @primary-color;
+    box-shadow: 0 0 0 2px fade(@primary-color, 25%);
+  }
+}
