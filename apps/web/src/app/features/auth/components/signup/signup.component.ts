@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -15,16 +17,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatFormFieldModule,
+    MatFormFieldModule
   ],
+  providers: [],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.less']
 })
 export class SignupComponent {
   signupForm: FormGroup;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.signupForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
@@ -41,8 +50,18 @@ export class SignupComponent {
 
   onSubmit() {
     if (this.signupForm.valid) {
-      console.log(this.signupForm.value);
-      // Add your signup logic here
+      const { email, password, name } = this.signupForm.value;
+      this.authService.signup({ email, password, name }).subscribe({
+        next: (response) => {
+          localStorage.setItem('token', response.token);
+          this.authService.setAuthState(true);
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          this.errorMessage = error.error.message || 'Signup failed. Please try again.';
+          console.error('Signup failed', error);
+        }
+      });
     }
   }
 }
