@@ -3,13 +3,13 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Product extends Document {
-  @Prop({ required: true })
+  @Prop({ type : String, required: true })
   name: string;
 
-  @Prop()
+  @Prop({ type : String })
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ type : Number, required: true })
   price: number;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })

@@ -7,26 +7,18 @@
 FROM docker.io/node:lts-alpine
 
 ENV HOST=0.0.0.0
-ENV PORT=3000
+ENV PORT=8080
+ENV MONGODB_URI=mongodb+srv://alihalabyah:iqD0yF8HWKkx85e3@cluster0.n7inl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
-WORKDIR /app
+
+WORKDIR /app/backend
 
 RUN addgroup --system backend && \
           adduser --system -G backend backend
 
-COPY dist/apps/backend backend/
+COPY dist/apps/backend .
 RUN chown -R backend:backend .
 
-# You can remove this install step if you build with `--bundle` option.
-# The bundled output will include external dependencies.
-RUN npm --prefix backend --omit=dev -f install
+RUN npm install --omit=dev
 
-# Update CMD to run the NestJS application with a more flexible entry point
-CMD [ "node", "backend/main.js" ]  # Adjusted to point to the main entry file of NestJS
-
-# Add a health check to ensure the service is running
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1  # Assuming a health check endpoint exists
-
-# Expose the port to allow access from outside the container
-EXPOSE 3000
+CMD [ "node", "." ]

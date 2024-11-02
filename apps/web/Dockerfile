@@ -4,17 +4,6 @@
 # Tip: Modify "docker-build" options in project.json to change docker build args.
 #
 # Run the container with `docker run -p 3000:3000 -t web`.
-FROM docker.io/node:lts-alpine AS builder
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-RUN npm run build --prod
-
-# Stage 2: Create the production image
 FROM docker.io/node:lts-alpine
 
 ENV HOST=0.0.0.0
@@ -23,14 +12,13 @@ ENV PORT=3000
 WORKDIR /app
 
 RUN addgroup --system web && \
-    adduser --system -G web web
+          adduser --system -G web web
 
-# Copy the built files from the builder stage
-COPY --from=builder /app/dist/apps/web /app/web
+COPY dist/apps/web web/
 RUN chown -R web:web .
 
 # You can remove this install step if you build with `--bundle` option.
 # The bundled output will include external dependencies.
-RUN npm --prefix web --omit=dev install
+RUN npm --prefix web --omit=dev -f install
 
 CMD [ "node", "web" ]
