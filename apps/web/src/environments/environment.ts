@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api' // development API URL
+  apiUrl: 'https://penny-backend-777933744185.us-central1.run.app/api' // development API URL
 };

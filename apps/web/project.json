@@ -96,7 +96,20 @@
     },
     "docker-build": {
       "dependsOn": ["build"],
-      "command": "docker build -f apps/web/Dockerfile . -t web"
+      "command": "docker build -f apps/web/Dockerfile . -t web --no-cache"
+    },
+    "deploy": {
+      "executor": "@nx-extend/gcp-cloud-run:deploy",
+      "options": {
+        "service": "penny-web",
+        "name": "penny-web",
+        "region": "us-central1",
+        "project": "starry-trilogy-440411-i7",
+        "dockerFile": "apps/web/Dockerfile",
+        "envVars": {
+          "API_URL": "https://penny-backend-777933744185.us-central1.run.app/api"
+        }
+      }
     }
   }
 }

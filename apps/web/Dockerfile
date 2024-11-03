@@ -14,11 +14,15 @@ WORKDIR /app
 RUN addgroup --system web && \
           adduser --system -G web web
 
-COPY dist/apps/web web/
+# Update COPY commands to include all server-side files
+# COPY dist/apps/web/server .
+# COPY dist/apps/web/browser ./browser
+
+COPY server ./server
+COPY browser ./browser
+
 RUN chown -R web:web .
 
-# You can remove this install step if you build with `--bundle` option.
-# The bundled output will include external dependencies.
-RUN npm --prefix web --omit=dev -f install
+USER web
 
-CMD [ "node", "web" ]
+CMD [ "node", "server/server.mjs" ]

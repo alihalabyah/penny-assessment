@@ -51,7 +51,6 @@
         "name": "penny-backend",
         "region": "us-central1",
         "project": "starry-trilogy-440411-i7",
-        "buildWith": "false",
         "envVars": {
           "MONGODB_URI": "mongodb+srv://alihalabyah:iqD0yF8HWKkx85e3@cluster0.n7inl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
           "JWT_SECRET": "your_secret_key",
