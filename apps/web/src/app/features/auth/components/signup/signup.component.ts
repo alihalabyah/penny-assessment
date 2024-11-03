@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Store } from '@ngrx/store';
 import { signup } from '@/app/store/actions/auth.actions';
 import { selectAuthError, selectIsLoading } from '@/app/store/selectors/auth.selectors';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({

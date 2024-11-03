@@ -43,7 +43,6 @@ export class DashboardComponent {
       await this.router.navigate(['/auth/login']);
     } catch (error) {
       console.error('Error signing out:', error);
-      // Optionally add error handling/user notification here
     }
   }
 }
