@@ -47,7 +47,10 @@ export class AuthService {
     }
 
     const token = this.generateToken(user._id.toString());
-    return { token };
+    return {
+      token: token,
+      user: user
+    };
   }
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {

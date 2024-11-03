@@ -6,7 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,12 +28,22 @@ import { RouterModule } from '@angular/router';
 export class DashboardComponent {
   isExpanded = true;
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   toggleSidebar() {
     this.isExpanded = !this.isExpanded;
   }
 
-  onSignOut() {
-    // Implement your sign out logic here
-    console.log('Signing out...');
+  async onSignOut() {
+    try {
+      await this.authService.logout();
+      await this.router.navigate(['/auth/login']);
+    } catch (error) {
+      console.error('Error signing out:', error);
+      // Optionally add error handling/user notification here
+    }
   }
 }
