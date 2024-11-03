@@ -73,5 +73,38 @@ export class AuthEffects {
     )
   );
 
+  signUp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signup),
+      switchMap(({ email, password, name }) =>
+        this.authService.signup({ email, password, name }).pipe(
+          map(response => {
+            localStorage.setItem('token', response.token);
+            return AuthActions.signupSuccess({ user: response.user, token: response.token });
+          }),
+          catchError(error => of(AuthActions.signupFailure({
+            error: error.error.message || 'Signup failed. Please try again.'
+          })))
+        )
+      )
+    )
+  );
+
+  signupSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signupSuccess),
+      tap(({ user, token }) => {
+        // Store token in localStorage
+        if (token) {
+          localStorage.setItem('token', token);
+        }
+        // Store user info in localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+        // Navigate to dashboard
+        this.router.navigate(['/dashboard']);
+      })
+    ),
+    { dispatch: false }
+  );
 
 }

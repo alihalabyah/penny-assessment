@@ -20,4 +20,17 @@ export const logout = createAction('[Auth] Logout');
 export const logoutSuccess = createAction('[Auth] Logout Success');
 export const logoutFailure = createAction('[Auth] Logout Failure', props<{ error: string }>());
 
-// ... other actions ...
+export const signup = createAction(
+  '[Auth] Signup',
+  props<{ email: string; password: string; name: string }>()
+);
+
+export const signupSuccess = createAction(
+  '[Auth] Signup Success',
+  props<{ user: User, token: string }>()
+);
+
+export const signupFailure = createAction(
+  '[Auth] Signup Failure',
+  props<{ error: string }>()
+);

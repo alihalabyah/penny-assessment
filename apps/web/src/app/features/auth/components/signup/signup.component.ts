@@ -5,7 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AuthService } from '../../services/auth.service';
+import { Store } from '@ngrx/store';
+import { signup } from '@/app/store/actions/auth.actions';
+import { selectAuthError, selectIsLoading } from '@/app/store/selectors/auth.selectors';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,11 +28,13 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
   signupForm: FormGroup;
-  errorMessage: string | null = null;
+  errorMessage$ = this.store.select(selectAuthError);
+  isLoading$ = this.store.select(selectIsLoading);
+  showLoginButton = false;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private store: Store,
     private router: Router
   ) {
     this.signupForm = this.fb.group({
@@ -40,6 +45,12 @@ export class SignupComponent {
     }, {
       validators: this.passwordMatchValidator
     });
+
+    this.errorMessage$.subscribe(error => {
+      if (error?.includes('Email already exists')) {
+        this.showLoginButton = true;
+      }
+    });
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -48,20 +59,14 @@ export class SignupComponent {
       : { mismatch: true };
   }
 
+  navigateToLogin() {
+    this.router.navigate(['/auth/login']);
+  }
+
   onSubmit() {
     if (this.signupForm.valid) {
       const { email, password, name } = this.signupForm.value;
-      this.authService.signup({ email, password, name }).subscribe({
-        next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.authService.setAuthState(true);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (error) => {
-          this.errorMessage = error.error.message || 'Signup failed. Please try again.';
-          console.error('Signup failed', error);
-        }
-      });
+      this.store.dispatch(signup({ email, password, name }));
     }
   }
 }

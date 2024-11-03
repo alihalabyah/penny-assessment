@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '@env/environment';
 import { LoginResponse } from '@/types/login-response';
+import { User } from '@/types/user';
+
 interface LoginCredentials {
   email: string;
   password: string;
@@ -54,7 +56,7 @@ export class AuthService {
   }
 
   signup(userData: { email: string; password: string; name: string }) {
-    return this.http.post<{ token: string }>('/api/auth/signup', userData);
+    return this.http.post<{ token: string, user: User }>(`${environment.apiUrl}/auth/signup`, userData);
   }
 
   setAuthState(isAuthenticated: boolean): void {

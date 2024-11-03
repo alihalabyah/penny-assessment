@@ -50,8 +50,13 @@
           </mat-error>
         </mat-form-field>
 
-        <div *ngIf="errorMessage" class="error-message">
+        <div *ngIf="errorMessage$ | async as errorMessage" class="error-message">
           {{ errorMessage }}
+        </div>
+
+        <div *ngIf="showLoginButton" class="login-redirect">
+          <p>This email is already registered.</p>
+          <button mat-button color="primary" (click)="navigateToLogin()">Go to Login</button>
         </div>
 
         <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">
