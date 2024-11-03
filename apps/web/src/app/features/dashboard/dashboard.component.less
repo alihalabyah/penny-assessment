@@ -1,0 +1,72 @@
+.dashboard-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+
+    .toolbar-spacer {
+      flex: 1 1 auto;
+    }
+  }
+
+  .sidenav-container {
+    flex: 1;
+    margin-top: 64px; // Height of the toolbar
+
+    mat-sidenav {
+      width: 250px;
+      background-color: #fafafa;
+      transition: width 0.3s ease;
+
+      &:not(.expanded) {
+        width: 60px;
+
+        .mat-list-item {
+          justify-content: center;
+
+          span {
+            display: none;
+          }
+        }
+      }
+
+      mat-nav-list {
+        a {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          height: 48px;
+
+          mat-icon {
+            margin-right: 12px;
+          }
+        }
+      }
+    }
+
+    mat-sidenav-content {
+      .content {
+        padding: 20px;
+      }
+    }
+  }
+}
+
+// Media query for mobile devices
+@media (max-width: 600px) {
+  .dashboard-container {
+    .sidenav-container {
+      margin-top: 56px; // Toolbar is smaller on mobile
+
+      mat-sidenav {
+        width: 200px;
+      }
+    }
+  }
+}

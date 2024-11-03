@@ -80,3 +80,51 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+## Docker and Deployment
+
+### Backend Service
+
+To set up Docker for your Node.js backend:
+```sh
+npx nx g @nx/node:setup-docker
+```
+
+To build the backend (with clean cache):
+```sh
+npx nx run backend:build --no-cache
+```
+
+To deploy the backend service:
+```sh
+npx nx run backend:deploy
+```
+
+### Web Application
+
+To build the web application for production:
+```sh
+npx nx web:build
+```
+
+To serve the web application locally:
+```sh
+npx nx web:serve
+```
+
+To deploy the web application:
+```sh
+npx nx run web:deploy
+```
+
+### Development Tools
+
+To visualize your project dependencies:
+```sh
+npx nx graph
+```
+
+To see all available commands for a specific project:
+```sh
+npx nx show project [backend|web]
+```
