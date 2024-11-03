@@ -70,7 +70,7 @@
           "buildTarget": "web:build:production"
         },
         "development": {
-          "buildTarget": "web:build:development",
+          "buildTarget": "web:build:development"
         }
       },
       "defaultConfiguration": "development"
